@@ -1,2 +1,2 @@
 # Ece_498
-Engr 498 VHDL Code
+ECE 498 VHDL Code

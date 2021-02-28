@@ -58,8 +58,8 @@ begin
   uut_01:
   code_practice
     Port Map ( a => a,
-               b => a,
-               z => a);
+               b => b,
+               z => z);
 			   
 	-- Stimuli process
   stimuli_process: process

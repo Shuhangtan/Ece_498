@@ -52,7 +52,18 @@ architecture Behavioral of code_practice_TB is
 
   -- Clock period definition
   --constant clk_period : time := 5 ns;
+  
 begin
+	-- Instantiate the Unit Under Test (UUT)
+  uut_01:
+  code_practice
+    Port Map ( a => a,
+               b => a,
+               z => a);
+			   
+	-- Stimuli process
+  stimuli_process: process
+  begin		   
     a <= "00000000";
     b <= "01010101";
     wait for 10 ns;
@@ -64,6 +75,7 @@ begin
     wait for 10 ns;
     
     a <= "00001111";
-    wait;
+    wait;	
+  end process;
 
 end Behavioral;

@@ -1,0 +1,2 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/shift_reg/shift_reg.srcs/sim_1/new/ring_counter_TB.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'ring_counter_TB'

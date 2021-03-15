@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 02/24/2021 08:53:43 PM
+-- Create Date: 03/14/2021 09:24:30 PM
 -- Design Name: 
--- Module Name: half_adder - Behavioral
+-- Module Name: full_adder - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,15 +31,33 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity half_adder is
+entity full_adder is
     Port ( x : in STD_LOGIC;
            y : in STD_LOGIC;
-           s : out STD_LOGIC;
-           c : out STD_LOGIC);
-end half_adder;
+           z : in STD_LOGIC;
+           S : out STD_LOGIC;
+           C : out STD_LOGIC);
+end full_adder;
 
-architecture Structural of half_adder is
+architecture Behavioral of full_adder is
+-- component declaration
+component half_adder
+port (x, y : in std_logic; s, c : out std_logic);
+end component;
+
+--configuration specification
+for all : half_adder use entity work.half_adder;
+
+signal HA_C, HA_S, FA_C, FA_S : std_logic;
+
 begin
-  s <= x XOR y;
-  c <= x AND y; 
-end Structural;
+  -- component instances
+  HA1 : half_adder
+  port map (x => x, y => y, s => HA_S, c => HA_C);
+  HA2 : half_adder
+  port map (x => HA_S, y => z, s => FA_S, c => FA_C);
+  
+  S <= FA_S;
+  C <= FA_C or HA_C;
+
+end Behavioral;

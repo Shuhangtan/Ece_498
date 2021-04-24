@@ -10,7 +10,7 @@ Time Resolution for simulation is 1ps
 Compiling package std.standard
 Compiling package std.textio
 Compiling package ieee.std_logic_1164
-Compiling architecture structural of entity xil_defaultlib.half_adder [half_adder_default]
+Compiling architecture behavioral of entity xil_defaultlib.half_adder [half_adder_default]
 Compiling architecture behavioral of entity xil_defaultlib.full_adder [full_adder_default]
 Compiling architecture structural of entity xil_defaultlib.Nbit_adder [nbit_adder_default]
 Compiling architecture behavioral of entity xil_defaultlib.four_bit_adder_tb

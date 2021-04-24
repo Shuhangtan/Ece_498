@@ -1,7 +1,8 @@
 # Adapted from the master constraint I found on github
 
 # SYSCLK 200MHz- let's see if this works
-create_clock -add -name sys_clk_pin -period 5.00 -waveform {0 2.5} [get_ports SYSCLK_P]
+#create_clock -add -name sys_clk_pin -period 5.00 -waveform {0 2.5} [get_ports SYSCLK_P]
+#create_clock -period 5.000 -name {SYSCLK_P} -waveform {0.000 2.500} [get_ports {SYSCLK_P}]
 
 # DIP Switches - use them as inputs for now
 set_property PACKAGE_PIN AV30 [get_ports {A_in[0]}]

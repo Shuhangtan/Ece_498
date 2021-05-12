@@ -32,11 +32,11 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity adder_subtractor is
-    Port ( A_in  : in unsigned(15 downto 0);
-           B_in  : in unsigned(15 downto 0);
+    Port ( a_in  : in unsigned(15 downto 0);
+           b_in  : in unsigned(15 downto 0);
            f_in  : in STD_LOGIC;--0 means add, 1 means subtract
            clk   : in STD_LOGIC;
-           S_out : out unsigned(15 downto 0));
+           s_out : out unsigned(15 downto 0));
 end adder_subtractor;
 
 architecture Behavioral of adder_subtractor is
@@ -52,10 +52,10 @@ begin
   process(clk)
   begin 
     if( rising_edge( clk)) then
-      A_r <= A_in;
-      B_r <= B_in;
+      A_r <= a_in;
+      B_r <= b_in;
       f_r <= f_in;
-      S_out <= S_r;
+      s_out <= S_r;
     end if;       
   end process;
 

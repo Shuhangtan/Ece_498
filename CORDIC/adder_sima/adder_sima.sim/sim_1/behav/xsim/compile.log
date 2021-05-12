@@ -1,0 +1,6 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/adder_sima/adder_sima.srcs/sources_1/new/ADDER_SUBTRACTOR.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'ADDER_SUBTRACTOR'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/adder_sima/adder_sima.srcs/sources_1/new/A_S_TOP_LEVEL.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'A_S_TOP_LEVEL'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/adder_sima/adder_sima.srcs/sim_1/imports/new/a_s_TB.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'a_s_TB'

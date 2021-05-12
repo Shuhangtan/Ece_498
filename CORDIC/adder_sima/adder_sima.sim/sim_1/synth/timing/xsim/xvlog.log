@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/shuhangtan/Ece_498/CORDIC/adder_sima/adder_sima.sim/sim_1/synth/timing/xsim/a_s_TB_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ADDER_SUBTRACTOR
+INFO: [VRFC 10-311] analyzing module A_S_TOP_LEVEL
+INFO: [VRFC 10-311] analyzing module glbl

@@ -1,0 +1,8 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../adder_sima.srcs/sources_1/new/ADDER_SUBTRACTOR.vhd" \
+"../../../../adder_sima.srcs/sources_1/new/A_S_TOP_LEVEL.vhd" \
+"../../../../adder_sima.srcs/sim_1/imports/new/a_s_TB.vhd" \
+
+# Do not sort compile order
+nosort

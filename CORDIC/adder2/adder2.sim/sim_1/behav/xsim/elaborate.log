@@ -12,5 +12,6 @@ Compiling package std.textio
 Compiling package ieee.std_logic_1164
 Compiling package ieee.numeric_std
 Compiling architecture behavioral of entity xil_defaultlib.adder_subtractor [adder_subtractor_default]
+Compiling architecture structural of entity xil_defaultlib.A_S_TOP_LEVEL [a_s_top_level_default]
 Compiling architecture behavioral of entity xil_defaultlib.a_s_tb
 Built simulation snapshot a_s_TB_behav

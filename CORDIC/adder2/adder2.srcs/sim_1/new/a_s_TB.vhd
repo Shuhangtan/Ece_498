@@ -54,7 +54,7 @@ architecture Behavioral of a_s_TB is
   signal f_in: STD_LOGIC;
 
   -- Clock period definition
-  constant clk_period : time := 1 ns;
+  constant clk_period : time := 10 ns;
 
 begin
   -- Instantiate the Unit Under Test (UUT)

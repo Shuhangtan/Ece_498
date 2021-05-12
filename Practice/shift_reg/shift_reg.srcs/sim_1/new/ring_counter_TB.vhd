@@ -38,17 +38,17 @@ end ring_counter_TB;
 architecture Behavioral of ring_counter_TB is
 -- Component declaration for the Unit Under Test (UUT)
   component ring_counter is
-    generic ( N : integer:=6 );
+    --generic ( N : integer:=4 );
     Port ( reset : in STD_LOGIC;
            clk   : in STD_LOGIC;
-           Q_out : out STD_LOGIC_VECTOR (N-1 downto 0));
+           Q_out : out STD_LOGIC_VECTOR (3 downto 0));
   end component;
 
   -- Clock & Reset
   signal reset, clk : STD_LOGIC;
 
   -- Data
-  signal Q_out : STD_LOGIC_VECTOR (5 downto 0);
+  signal Q_out : STD_LOGIC_VECTOR (3 downto 0);
 
   -- Clock period definition
   constant clk_period : time := 10 ns;
@@ -57,7 +57,7 @@ begin
   -- Instantiate the Unit Under Test (UUT)
   uut_01:
   ring_counter
-    generic map (N => 6)
+    --generic map (N => 4)
     Port Map ( clk => clk,
                reset => reset,
                Q_out => Q_out);

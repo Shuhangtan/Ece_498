@@ -3,6 +3,7 @@ vhdl xil_defaultlib  \
 "../../../../b2b_adder.srcs/sources_1/imports/new/half_adder.vhd" \
 "../../../../b2b_adder.srcs/sources_1/imports/new/full_adder.vhd" \
 "../../../../b2b_adder.srcs/sources_1/imports/new/Nbit_adder.vhd" \
+"../../../../b2b_adder.srcs/sources_1/imports/new/A_S_TOP_LEVEL.vhd" \
 "../../../../b2b_adder.srcs/sim_1/new/b2b_adder_TB.vhd" \
 
 # Do not sort compile order

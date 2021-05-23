@@ -1,7 +1,7 @@
-Running: xsim.dir/b2b_adder_TB_behav/xsimk -simmode gui -wdb b2b_adder_TB_behav.wdb -simrunnum 0 -socket 50128
+Running: xsim.dir/b2b_adder_TB_behav/xsimk -simmode gui -wdb b2b_adder_TB_behav.wdb -simrunnum 0 -socket 44017
 Design successfully loaded
 Design Loading Memory Usage: 42816 KB (Peak: 42816 KB)
-Design Loading CPU Usage: 30 ms
+Design Loading CPU Usage: 50 ms
 Simulation completed
 Simulation Memory Usage: 124556 KB (Peak: 190092 KB)
-Simulation CPU Usage: 40 ms
+Simulation CPU Usage: 60 ms

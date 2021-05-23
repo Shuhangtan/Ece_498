@@ -1,8 +1,6 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/b2b_adder/b2b_adder.srcs/sources_1/imports/new/half_adder.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'half_adder'
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/b2b_adder/b2b_adder.srcs/sources_1/imports/new/full_adder.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'full_adder'
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/b2b_adder/b2b_adder.srcs/sources_1/imports/new/Nbit_adder.vhd" into library xil_defaultlib
 INFO: [VRFC 10-3107] analyzing entity 'adder'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/b2b_adder/b2b_adder.srcs/sources_1/imports/new/A_S_TOP_LEVEL.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'A_S_TOP_LEVEL'
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/shuhangtan/Ece_498/CORDIC/b2b_adder/b2b_adder.srcs/sim_1/new/b2b_adder_TB.vhd" into library xil_defaultlib
 INFO: [VRFC 10-3107] analyzing entity 'b2b_adder_TB'

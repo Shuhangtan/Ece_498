@@ -11,6 +11,6 @@ Compiling package std.standard
 Compiling package std.textio
 Compiling package ieee.std_logic_1164
 Compiling architecture behavioral of entity xil_defaultlib.my_D_FF [my_d_ff_default]
-Compiling architecture structral of entity xil_defaultlib.ring_counter [\ring_counter(n=6)\]
+Compiling architecture structral of entity xil_defaultlib.ring_counter [ring_counter_default]
 Compiling architecture behavioral of entity xil_defaultlib.ring_counter_tb
 Built simulation snapshot ring_counter_TB_behav

@@ -82,7 +82,7 @@ begin
     A_in <= "0000000000000000";
     B_in <= "0000000000000000";
     f_in <= '0';
-    wait for clk_period*1.5;
+    wait for clk_period*20;
     
     -- Test cases   
     A_in <= "0101101001111111"; --1.414*2^14

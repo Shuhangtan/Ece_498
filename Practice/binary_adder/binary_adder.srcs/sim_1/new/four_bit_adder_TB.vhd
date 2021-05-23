@@ -38,10 +38,9 @@ end four_bit_adder_TB;
 architecture Behavioral of four_bit_adder_TB is
 -- Component declaration for the Unit Under Test (UUT)
   component Nbit_adder is
-    generic ( N : integer:=4 );
-    Port ( A_in  : in STD_LOGIC_VECTOR(N-1 downto 0);
-           B_in  : in STD_LOGIC_VECTOR(N-1 downto 0);
-           S_out : out STD_LOGIC_VECTOR(N-1 downto 0);
+    Port ( A_in  : in STD_LOGIC_VECTOR(3 downto 0);
+           B_in  : in STD_LOGIC_VECTOR(3 downto 0);
+           S_out : out STD_LOGIC_VECTOR(3 downto 0);
            C_out : out STD_LOGIC);
   end component;
 
@@ -59,7 +58,6 @@ begin
   -- Instantiate the Unit Under Test (UUT)
   uut_01:
   Nbit_adder
-    generic map (N => 4)
     Port Map ( A_in => A_in,
                B_in => B_in,
                S_out => S_out,

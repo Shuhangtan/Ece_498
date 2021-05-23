@@ -32,10 +32,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Nbit_adder is
-    generic ( N : integer:=4 );
-    Port ( A_in  : in STD_LOGIC_VECTOR(N-1 downto 0);
-           B_in  : in STD_LOGIC_VECTOR(N-1 downto 0);
-           S_out : out STD_LOGIC_VECTOR(N-1 downto 0);
+    Port ( A_in  : in STD_LOGIC_VECTOR(3 downto 0);
+           B_in  : in STD_LOGIC_VECTOR(3 downto 0);
+           S_out : out STD_LOGIC_VECTOR(3 downto 0);
            C_out : out STD_LOGIC);
 end Nbit_adder;
 
@@ -49,11 +48,11 @@ end component;
 --configuration specification
 for all : full_adder use entity work.full_adder;
 
-signal sum, carry: STD_LOGIC_VECTOR(N-1 downto 0):=(others => '0');
+signal sum, carry: STD_LOGIC_VECTOR(3 downto 0):=(others => '0');
 signal z0: STD_LOGIC:='0';
 
 begin
-  binary_adder : for i in 0 to N-1 generate
+  binary_adder : for i in 0 to 3 generate
     begin
         FA0 : if ( i = 0 ) generate   -- First FA
             begin U1 : entity work.full_adder port map       
@@ -73,5 +72,5 @@ begin
         end generate FA1;
     end generate binary_adder;
     S_out <= sum; 
-    C_out <= carry(N-1);
+    C_out <= carry(3);
 end Structural;

@@ -35,6 +35,7 @@ entity adder is
     Port ( A_in  : in unsigned(15 downto 0);
            B_in  : in unsigned(15 downto 0);
            clk   : in STD_LOGIC;
+           rst   : in STD_LOGIC;
            S_out : out unsigned(15 downto 0);
            C_out : out STD_LOGIC);
 end adder;
@@ -79,8 +80,13 @@ begin
     if( rising_edge( clk)) then
       A <= A_in;
       B <= B_in;
-      S_out <= sum; 
-      C_out <= carry(15);
+      if (rst = '1') then
+        S_out <= "0000000000000000"; 
+        C_out <= '0';
+      else
+        S_out <= sum; 
+        C_out <= carry(15);
+      end if;
     end if;       
   end process;
     

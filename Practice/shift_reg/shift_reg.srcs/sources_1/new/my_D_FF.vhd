@@ -43,10 +43,12 @@ architecture Behavioral of my_D_FF is
 begin
   process (clk)
     begin
-      if (reset = '1') then
-        Q <= '0';
-      elsif (rising_edge( clk)) then
-        Q <= D;
+      if (rising_edge( clk)) then
+        if (reset = '1') then
+          Q <= '0';
+        else
+          Q <= D;
+        end if;
       end if;
     end process;
 end Behavioral;

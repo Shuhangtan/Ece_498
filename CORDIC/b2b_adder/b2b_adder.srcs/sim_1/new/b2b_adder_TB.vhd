@@ -54,7 +54,7 @@ architecture Behavioral of b2b_adder_TB is
   signal C_out: STD_LOGIC;
 
   -- Clock period definition
-  constant clk_period : time := 10 ns;
+  constant clk_period : time := 20 ns;
 
 begin
   -- Instantiate the Unit Under Test (UUT)
@@ -83,7 +83,7 @@ begin
     rst <= '1';
     A_in <= "0000000000000000";
     B_in <= "0000000000000000";
-    wait for clk_period*1.5;
+    wait for clk_period*19.5;
     
     -- Test cases
     rst <= '0';
@@ -93,6 +93,10 @@ begin
     
     A_in <= "0100011001100110"; --1.1*2^14
     B_in <= "0010011001100110"; --0.6*2^14
+    wait for clk_period;
+    
+    A_in <= "0101000111101100"; --1.28*2^14
+    B_in <= "0001011001100110"; --0.35*2^14
     wait for clk_period;
     
     A_in <= "0000000000000000";

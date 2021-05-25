@@ -58,5 +58,7 @@ begin
       s_out <= S_r;
     end if;       
   end process;
+  
+--s_out <= S_r;
 
 end Behavioral;

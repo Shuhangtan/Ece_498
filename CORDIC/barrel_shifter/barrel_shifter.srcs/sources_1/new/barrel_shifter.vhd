@@ -54,17 +54,18 @@ p1:process (rst, clk)
 	if rising_edge(clk) then
 	  if (rst = '1') then
 	    d_out <= "0000000000000000" ;
+	    d_in_r <= "0000000000000000" ;
+	    bit_r <= "0000" ;
 	  else
 	    d_out <= d_out_r;
-	  end if;
-	  d_in_r <= d_in;
-	  bit_r  <= shift_by;
+	    d_in_r <= d_in;
+	    bit_r  <= shift_by;	
+	end if;
 	end if; 	   
   end process p1;
   
 -- Shifter circuit
 a1 <= d_in_r;
---d_out <= d_out_r;
 
 shift_8_bit:first_stage 
     port map(a => a1, 

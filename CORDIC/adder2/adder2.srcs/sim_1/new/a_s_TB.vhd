@@ -1,24 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 05/09/2021 09:21:24 PM
--- Design Name: 
--- Module Name: a_s_TB - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -54,7 +33,7 @@ architecture Behavioral of a_s_TB is
   signal f_in: STD_LOGIC;
 
   -- Clock period definition
-  constant clk_period : time := 10 ns;
+  constant clk_period : time := 20 ns;
 
 begin
   -- Instantiate the Unit Under Test (UUT)
@@ -82,7 +61,7 @@ begin
     A_in <= "0000000000000000";
     B_in <= "0000000000000000";
     f_in <= '0';
-    wait for clk_period*20;
+    wait for clk_period*19.5;
     
     -- Test cases   
     A_in <= "0101101001111111"; --1.414*2^14
@@ -94,6 +73,14 @@ begin
     
     A_in <= "0100011001100110"; --1.1*2^14
     B_in <= "0010011001100110"; --0.6*2^14
+    f_in <= '0';
+    wait for clk_period;
+    
+    f_in <= '1';
+    wait for clk_period; 
+    
+    A_in <= "0101000111101100"; --1.28*2^14
+    B_in <= "0001011001100110"; --0.35*2^14
     f_in <= '0';
     wait for clk_period;
     

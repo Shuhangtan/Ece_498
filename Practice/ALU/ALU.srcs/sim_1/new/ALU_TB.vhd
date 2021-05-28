@@ -39,14 +39,15 @@ end ALU_TB;
 architecture Behavioral of ALU_TB is
   -- Component declaration for the Unit Under Test (UUT)
   component alu is
-    Port ( A, B           : in 	signed(15 DOWNTO 0);  
-            f             : in 	STD_LOGIC_VECTOR(2 DOWNTO 0);  
-            ALU_result    : out	signed(15 DOWNTO 0));
+    Port ( A, B           : in 	STD_LOGIC_VECTOR(15 DOWNTO 0);  -- inputs to the ALU
+            clk           : in     STD_LOGIC;
+            --f              : in 	STD_LOGIC_VECTOR(2 DOWNTO 0);  -- the ALU function
+            ALU_result    : out	STD_LOGIC_VECTOR(15 DOWNTO 0));
   end component;
   
   -- Data
-  signal A, B, ALU_result: signed (15 downto 0);
-  signal f: STD_LOGIC_VECTOR(2 DOWNTO 0);
+  signal A, B, ALU_result: STD_LOGIC_VECTOR (15 downto 0);
+  signal clk: STD_LOGIC;
 
   -- Clock period definition
   constant clk_period : time := 10 ns;
@@ -58,33 +59,32 @@ begin
   alu
     Port Map ( A => A,
                B => B,
-               f => f,
+               clk => clk,
                ALU_result => ALU_result);
+
+-- Clock process
+  clk_process: process
+  begin
+    clk <= '1';
+    wait for clk_period/2;
+    clk <= '0';
+    wait for clk_period/2;
+  end process;
 
 -- Stimuli process
   stimuli_process: process
   begin
-    A <= "0010010110000001"; --0.586*2^14
-    B <= "0101101001111111"; --1.414*2^14
-    f <= "000";
-    wait for clk_period;
+    A <= "0000000000000000";
+    B <= "0000000000000000";
+    wait for 19.5*clk_period;
     
-    f <= "010";
-    wait for clk_period;
-    
-    f <= "011";
+    A <= "0100101100000010"; --0.586*2^15
+    B <= "1011010011111110"; --1.414*2^15
     wait for clk_period;    
-    
-    A <= "0100011001100110"; --1.1*2^14
-    B <= "0010011001100110"; --0.6*2^14
-    f <= "000";
+     
+    A <= "1000110011001101"; --1.1*2^15
+    B <= "0100110011001101"; --0.6*2^15
     wait for clk_period;
-    
-    f <= "010";
-    wait for clk_period;
-    
-    f <= "011";
-    wait for clk_period; 
     
     A <= "0000000000000000";
     B <= "0000000000000000";

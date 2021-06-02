@@ -22,11 +22,12 @@ architecture Behavioral of a_s_TB is
            B_IN  : in std_logic_vector(15 downto 0);
            F_IN  : in STD_LOGIC;
            CLK   : in STD_LOGIC;
+           RST   : in STD_LOGIC;
            S_OUT : out std_logic_vector(15 downto 0));
   end component;
 
   -- Clock & Reset
-  signal clk : STD_LOGIC;
+  signal clk, rst : STD_LOGIC;
 
   -- Data
   signal A_in, B_in, S_out : std_logic_vector(15 downto 0);
@@ -42,6 +43,7 @@ begin
     Port Map ( A_in  => A_IN,
                B_in  => B_IN,
                clk   => CLK,
+               rst   => RST,
                S_out => S_OUT,
                f_in  => F_IN);
 
@@ -58,14 +60,16 @@ begin
   stimuli_process: process
   begin
     -- Big-Bang state
-    A_in <= "0000000000000000";
-    B_in <= "0000000000000000";
+    A_in <= "00000000000000000";
+    B_in <= "00000000000000000";
     f_in <= '0';
+    rst  <= '1';
     wait for clk_period*19.5;
     
     -- Test cases   
     A_in <= "0101101001111111"; --1.414*2^14
     B_in <= "0010010110000001"; --0.586*2^14
+    rst  <= '0';
     wait for clk_period;
     
     f_in <= '1';

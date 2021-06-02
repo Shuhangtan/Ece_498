@@ -32,28 +32,31 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity A_S_TOP_LEVEL is
-    Port ( A_IN  : in std_logic_vector(15 downto 0);
-           B_IN  : in std_logic_vector(15 downto 0);
+    Port ( A_IN  : in std_logic_vector(16 downto 0);
+           B_IN  : in std_logic_vector(16 downto 0);
            F_IN  : in STD_LOGIC;
            CLK   : in STD_LOGIC;
-           S_OUT : out std_logic_vector(15 downto 0));
+           RST   : in STD_LOGIC;
+           S_OUT : out std_logic_vector(16 downto 0));
 end A_S_TOP_LEVEL;
 
 architecture Structural of A_S_TOP_LEVEL is
 
   component adder_subtractor is
-    Port ( a_in  : in unsigned(15 downto 0);
-           b_in  : in unsigned(15 downto 0);
+    Port ( a_in  : in signed(16 downto 0);
+           b_in  : in signed(16 downto 0);
            f_in  : in STD_LOGIC;
            clk   : in STD_LOGIC;
-           s_out : out unsigned(15 downto 0));
+           rst   : in STD_LOGIC;
+           s_out : out signed(16 downto 0));
     end component;
 
 begin
   d1: entity work.adder_subtractor
-        port map (  a_in => unsigned(A_IN),
-                    b_in => unsigned(B_IN),
+        port map (  a_in => signed(A_IN),
+                    b_in => signed(B_IN),
                     clk => CLK,
+                    rst => RST,
                     std_logic_vector(s_out) => S_OUT,
                     f_in => F_IN);
 

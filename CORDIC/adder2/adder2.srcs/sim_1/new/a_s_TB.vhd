@@ -17,20 +17,20 @@ end a_s_TB;
 architecture Behavioral of a_s_TB is
 
 -- Component declaration for the Unit Under Test (UUT)
-  component A_S_TOP_LEVEL is
-    Port ( A_IN  : in std_logic_vector(15 downto 0);
-           B_IN  : in std_logic_vector(15 downto 0);
-           F_IN  : in STD_LOGIC;
-           CLK   : in STD_LOGIC;
-           RST   : in STD_LOGIC;
-           S_OUT : out std_logic_vector(15 downto 0));
-  end component;
+  component adder_subtractor is
+    Port ( a_in  : in std_logic_vector(16 downto 0);
+           b_in  : in std_logic_vector(16 downto 0);
+           f_in  : in STD_LOGIC;
+           clk   : in STD_LOGIC;
+           rst   : in STD_LOGIC;
+           s_out : out std_logic_vector(16 downto 0));
+    end component;
 
   -- Clock & Reset
   signal clk, rst : STD_LOGIC;
 
   -- Data
-  signal A_in, B_in, S_out : std_logic_vector(15 downto 0);
+  signal A_in, B_in, S_out : std_logic_vector(16 downto 0);
   signal f_in: STD_LOGIC;
 
   -- Clock period definition
@@ -39,13 +39,13 @@ architecture Behavioral of a_s_TB is
 begin
   -- Instantiate the Unit Under Test (UUT)
   uut_01:
-  A_S_TOP_LEVEL
-    Port Map ( A_in  => A_IN,
-               B_in  => B_IN,
-               clk   => CLK,
-               rst   => RST,
-               S_out => S_OUT,
-               f_in  => F_IN);
+  adder_subtractor
+    Port Map ( A_in  => a_in,
+               B_in  => b_in,
+               clk   => clk,
+               rst   => rst,
+               S_out => s_out,
+               f_in  => f_in);
 
   -- Clock process
   clk_process: process
@@ -66,33 +66,44 @@ begin
     rst  <= '1';
     wait for clk_period*19.5;
     
-    -- Test cases   
-    A_in <= "0101101001111111"; --1.414*2^14
-    B_in <= "0010010110000001"; --0.586*2^14
+    -- Test cases - all passed
+    -- However extra care should be taken for overflow cases   
+    A_in <= "01011010011111110"; --1.414*2^15 = 46334
+    B_in <= "00100101100000010"; --0.586*2^15 = 19202
     rst  <= '0';
     wait for clk_period;
     
     f_in <= '1';
     wait for clk_period;
     
-    A_in <= "0100011001100110"; --1.1*2^14
-    B_in <= "0010011001100110"; --0.6*2^14
+    A_in <= "01000110011001101"; --1.1*2^15 = 36045
+    B_in <= "01100110011001101"; --1.6*2^15 = 52429
     f_in <= '0';
     wait for clk_period;
     
     f_in <= '1';
     wait for clk_period; 
     
-    A_in <= "0101000111101100"; --1.28*2^14
-    B_in <= "0001011001100110"; --0.35*2^14
+    A_in <= "01010001111010111"; --1.28*2^15 = 41943
+    B_in <= "00010110011001101"; --0.35*2^15 = 11469
     f_in <= '0';
     wait for clk_period;
     
     f_in <= '1';
     wait for clk_period;
     
-    A_in <= "0000000000000000";
-    B_in <= "0000000000000000";
+    A_in <= "10010001010001110"; --(-1.73*2^15) = -56690
+    B_in <= "01011110010001011"; --1.473*2^15 = 48267
+    f_in <= '0';
+    wait for clk_period;
+    
+    f_in <= '1';
+    -- result: 00110011000000011
+    -- (overflow, this is the truncated result)
+    wait for clk_period;
+    
+    A_in <= "00000000000000000";
+    B_in <= "00000000000000000";
     wait;
   end process;
 

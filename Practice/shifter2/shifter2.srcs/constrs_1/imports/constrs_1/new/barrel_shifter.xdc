@@ -51,6 +51,8 @@ set_property PACKAGE_PIN AF37 [get_ports {d_in[14]}]
     set_property IOSTANDARD LVCMOS18 [get_ports {d_in[14]}]
 set_property PACKAGE_PIN AC35 [get_ports {d_in[15]}]
     set_property IOSTANDARD LVCMOS18 [get_ports {d_in[15]}]
+set_property PACKAGE_PIN AC36 [get_ports {d_in[16]}]
+    set_property IOSTANDARD LVCMOS18 [get_ports {d_in[16]}]
     
 # See VC707 board datasheet P63 for FMC 1 pins
 # Output: d_out (FMC 1)
@@ -86,3 +88,5 @@ set_property PACKAGE_PIN K27 [get_ports {d_out[14]}]
     set_property IOSTANDARD LVCMOS18 [get_ports {d_out[14]}]
 set_property PACKAGE_PIN J27 [get_ports {d_out[15]}]
     set_property IOSTANDARD LVCMOS18 [get_ports {d_out[15]}]
+set_property PACKAGE_PIN H23 [get_ports {d_out[16]}]
+    set_property IOSTANDARD LVCMOS18 [get_ports {d_out[16]}]

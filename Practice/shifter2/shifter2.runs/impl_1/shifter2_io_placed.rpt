@@ -1,7 +1,7 @@
 Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version              : Vivado v.2018.3 (lin64) Build 2405991 Thu Dec  6 23:36:41 MST 2018
-| Date                      : Thu May 27 21:11:22 2021
+| Date                      : Fri Jun  4 17:30:12 2021
 | Host                      : remus.ece.uvic.ca running 64-bit unknown
 | Command                   : report_io -file shifter2_io_placed.rpt
 | Design                    : shifter2
@@ -25,7 +25,7 @@ Table of Contents
 +---------------+
 | Total User IO |
 +---------------+
-|            38 |
+|            40 |
 +---------------+
 
 
@@ -194,7 +194,7 @@ Table of Contents
 | AC33       |             | High Performance | IO_L12N_T1_MRCC_16           | User IO       |             |      16 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | AC34       |             | High Performance | IO_L14P_T2_SRCC_16           | User IO       |             |      16 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | AC35       | d_in[15]    | High Performance | IO_L5P_T0_16                 | INPUT         | LVCMOS18    |      16 |            |      |                     |                 NONE |           | FIXED      |           |          |      | NONE             |              |                   |              |
-| AC36       |             | High Performance | IO_L5N_T0_16                 | User IO       |             |      16 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
+| AC36       | d_in[16]    | High Performance | IO_L5N_T0_16                 | INPUT         | LVCMOS18    |      16 |            |      |                     |                 NONE |           | FIXED      |           |          |      | NONE             |              |                   |              |
 | AC37       |             | High Performance | VCCO_17                      | VCCO          |             |      17 |            |      |                     |                      | 0.00-1.80 |            |           |          |      |                  |              |                   |              |
 | AC38       |             | High Performance | IO_L7P_T1_17                 | User IO       |             |      17 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | AC39       |             | High Performance | IO_L7N_T1_17                 | User IO       |             |      17 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
@@ -1271,7 +1271,7 @@ Table of Contents
 | H20        |             | High Performance | IO_L17N_T2_38                | User IO       |             |      38 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | H21        |             | High Performance | IO_L2N_T0_36                 | User IO       |             |      36 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | H22        |             | High Performance | VCCO_36                      | VCCO          |             |      36 |            |      |                     |                      |      1.80 |            |           |          |      |                  |              |                   |              |
-| H23        |             | High Performance | IO_L6P_T0_36                 | User IO       |             |      36 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
+| H23        | d_out[16]   | High Performance | IO_L6P_T0_36                 | OUTPUT        | LVCMOS18    |      36 |         12 | SLOW |                     |            FP_VTT_50 |           | FIXED      |           |          |      | NONE             |              |                   |              |
 | H24        |             | High Performance | IO_L1P_T0_36                 | User IO       |             |      36 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | H25        |             | High Performance | IO_L3P_T0_DQS_36             | User IO       |             |      36 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |
 | H26        |             | High Performance | IO_L3N_T0_DQS_36             | User IO       |             |      36 |            |      |                     |                      |           |            |           |          |      |                  |              |                   |              |

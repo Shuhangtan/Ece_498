@@ -67,6 +67,7 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
+  set_param synth.incrementalSynthesisCache ./.Xil/Vivado-45896-remus.ece.uvic.ca/incrSyn
   create_project -in_memory -part xc7vx485tffg1761-2
   set_property board_part xilinx.com:vc707:part0:1.4 [current_project]
   set_property design_mode GateLvl [current_fileset]

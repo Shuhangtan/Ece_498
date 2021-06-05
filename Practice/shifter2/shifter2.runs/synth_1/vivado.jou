@@ -2,8 +2,8 @@
 # Vivado v2018.3 (64-bit)
 # SW Build 2405991 on Thu Dec  6 23:36:41 MST 2018
 # IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
-# Start of session at: Thu May 27 21:08:59 2021
-# Process ID: 34725
+# Start of session at: Fri Jun  4 17:27:25 2021
+# Process ID: 13982
 # Current directory: /home/shuhangtan/Ece_498/Practice/shifter2/shifter2.runs/synth_1
 # Command line: vivado -log shifter2.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source shifter2.tcl
 # Log file: /home/shuhangtan/Ece_498/Practice/shifter2/shifter2.runs/synth_1/shifter2.vds

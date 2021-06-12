@@ -17,6 +17,7 @@ entity cordic1 is
 end cordic1;
 
 architecture Behavioral of cordic1 is
+-- Internal signals declaration:
 
 -- Registered signals for input and outputs
 signal angle_r: unsigned(15 downto 0):=(others => '0');
@@ -30,6 +31,8 @@ signal x: unsigned(19 downto 0):=(19 => '1', others => '0');
 signal y: unsigned(19 downto 0):=(others => '0');
 signal z: unsigned(19 downto 0):=(others => '0'); -- 0 to 90 degrees
 
+-- Subprograms declaration:
+
 -- Adjust the input angle to first quadrant by rotating it 90/180/270 degrees counterclockwise
 -- The adjusted angle will be stored in a 20-bit variable, ranging from -90 to 90 degrees
 -- The actual quadrant of the input angle will be stored
@@ -39,7 +42,7 @@ procedure adjust_angle (ang     : in unsigned(15 downto 0);
 begin
   q :=ang(15 downto 14);
   adjusted := signed('0' & ang(13 downto 0) & "00000");
-end procedure;
+end procedure; -- End of adjust_angle procedure
 
 -- CORDIC loop in rolling method (using for loop)
 procedure rolling (xi, yi: in unsigned(19 downto 0);
@@ -92,7 +95,9 @@ begin
   xr := x1;
   yr := y1;
   zr := z1;
-end procedure;
+end procedure; -- End of rolling procedure
+
+-- Behavior architecture:
 
 begin
 

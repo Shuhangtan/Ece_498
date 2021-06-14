@@ -1,8 +1,8 @@
 -- Created on June 6, 2021
 -- Reference: https://github.com/kevinpt/vhdl-extras/blob/master/rtl/extras/cordic.vhdl
 
--- June 08: for loop procedure is done
--- To do: finish up work (multiplication, quadrant conversion, main architecture
+-- June 13: all procedures are done
+-- To do: main architecture: how to call the 3 prodecudres 
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -24,7 +24,7 @@ signal angle_r: unsigned(15 downto 0):=(others => '0');
 signal cos_r, sin_r: signed(16 downto 0):=(others => '0');
 
 -- Storing the quadrant of the input angle
-signal quad: unsigned(1 downto 0);
+signal quad: unsigned(1 downto 0):=(others => '0');
 
 -- CORDIC calculation: x, y, and z(angle)
 signal x: unsigned(19 downto 0):=(19 => '1', others => '0');
@@ -33,22 +33,22 @@ signal z: unsigned(19 downto 0):=(others => '0'); -- 0 to 90 degrees
 
 -- Subprograms declaration:
 
--- Adjust the input angle to first quadrant by rotating it 90/180/270 degrees counterclockwise
+-- Adjust the input angle to first quadrant by rotating it 90/180/270 degrees clockwise
 -- The adjusted angle will be stored in a 20-bit variable, ranging from -90 to 90 degrees
 -- The actual quadrant of the input angle will be stored
-procedure adjust_angle (ang     : in unsigned(15 downto 0);
-						q       : out unsigned(1 downto 0);
-						adjusted: out signed(19 downto 0)) is
+procedure adjust_angle (ang            : in unsigned(15 downto 0);
+						signal q       : out unsigned(1 downto 0);
+						signal adjusted: out signed(19 downto 0)) is
 begin
   q :=ang(15 downto 14);
   adjusted := signed('0' & ang(13 downto 0) & "00000");
 end procedure; -- End of adjust_angle procedure
 
 -- CORDIC loop in rolling method (using for loop)
-procedure rolling (xi, yi: in unsigned(19 downto 0);
-				   zi    : in signed(19 downto 0)
-				   xr, yr: out unsigned(19 downto 0)
-				   zr    : out signed(19 downto 0)) is
+procedure rolling (xi, yi       : in unsigned(19 downto 0);
+				   zi           : in signed(19 downto 0)
+				   signal xr, yr: out unsigned(19 downto 0)
+				   signal zr    : out signed(19 downto 0)) is
 				   
 variable x1, x2, y1, y2: unsigned(19 downto 0);
 variable z1, z2: signed(19 downto 0);
@@ -97,6 +97,42 @@ begin
   zr := z1;
 end procedure; -- End of rolling procedure
 
+-- Wrapping up the calculation:
+-- 1. Multiply the shifting results with scaling factor
+-- 2. Convert the product to 17 bit signed (1 bit for sign)
+-- 3. Adjust the results according to the input angle quadrant
+procedure wrap_up (xi, yi       : in unsigned(19 downto 0);
+				   quadrant     : in unsigned(1 downto 0);
+				   signal co, so: out signed(17 downto 0)) is
+
+variable x_40_bit, y_40_bit: unsigned(39 downto 0);
+variable x_16_bit, y_16_bit: unsigned(15 downto 0);
+
+constant scaling_factor: unsigned(19 downto 0):=("01001101101110100111");
+
+begin
+  x_40_bit = xi * scaling_factor;
+  y_40_bit = yi * scaling_factor;
+  
+  x_16_bit = x_40_bit(39 downto 24);
+  y_16_bit = y_40_bit(39 downto 24);
+  
+  case quadrant is
+    when "00" => -- First quadrant, no rotation
+	  co := signed('0' & x_16_bit);
+	  so := signed('0' & y_16_bit);
+	when "01" => -- Second quadrant, rotate 90 degrees counterclockwise
+	  co := signed('1' & y_16_bit);
+	  so := signed('0' & x_16_bit);
+	when "10" => -- Third quadrant, rotate 180 degrees counterclockwise
+	  co := signed('1' & x_16_bit);
+	  so := signed('1' & y_16_bit);
+	when others => -- Fourth quadrant, rotate 270 degrees counterclockwise
+	  co := signed('0' & y_16_bit);
+	  so := signed('1' & x_16_bit);
+  end case;
+end procedure; -- End of wrap-up procedure
+
 -- Behavior architecture:
 
 begin
@@ -108,11 +144,7 @@ reg:process (rst, clk)
 	  if (rst = '1') then
 	    cos <= "00000000000000000" ;
         sin <= "00000000000000000" ;
-	    angle_r <= "0000000000" ;
-      else if (angle = "0000000000") then
-        cos <= "01000000000000000" ;
-        sin <= "00000000000000000" ;
-	    angle_r <= "0000000000" ;
+	    angle_r <= "0000000000000000" ;
 	  else
 	    cos <= std_logic_vector(cos_r);
 		sin <= std_logic_vector(sin_r);
@@ -120,6 +152,7 @@ reg:process (rst, clk)
 	  end if;
 	end if; 	   
 end process reg;
+
 
 
 end Behavioral;

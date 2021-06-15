@@ -21,7 +21,7 @@ architecture Behavioral of cordic_TB is
 
   -- Data
   signal angle   : STD_LOGIC_VECTOR (15 downto 0);
-  signal cos, sin: STD_LOGIC_VECTOR (16 downto 0));
+  signal cos, sin: STD_LOGIC_VECTOR (16 downto 0);
 
   -- Clock period definition
   constant clk_period : time := 20 ns;
@@ -33,8 +33,8 @@ begin
     Port Map ( clk   => clk,
                rst   => rst,
                angle => angle,
-               cos   => cos
-			   sing  => sin);
+               cos   => cos,
+			   sin   => sin);
 
   -- Clock process
   clk_process: process

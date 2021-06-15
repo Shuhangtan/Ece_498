@@ -27,31 +27,9 @@ signal cos_r, sin_r: signed(16 downto 0):=(others => '0');
 signal quad: unsigned(1 downto 0):=(others => '0');
 
 -- CORDIC calculation: x, y, and z(angle)
-signal x_in, x_out: unsigned(19 downto 0):=(19 => '1', others => '0');
-signal y_in, y_out: unsigned(19 downto 0):=(others => '0');
-signal z_in, z_out: signed(19 downto 0):=(others => '0'); -- 0 to 90 degrees
-
--- Subprograms declaration:
-
--- Adjust the input angle to first quadrant by rotating it 90/180/270 degrees clockwise
--- The adjusted angle will be stored in a 20-bit variable, ranging from -90 to 90 degrees
--- The actual quadrant of the input angle will be stored
-procedure adjust_angle (ang            : in unsigned(15 downto 0);
-						signal q       : out unsigned(1 downto 0);
-						signal adjusted: out signed(19 downto 0)) is
-begin
-  q <=ang(15 downto 14);
-  adjusted <= signed('0' & ang(13 downto 0) & "00000");
-end procedure; -- End of adjust_angle procedure
-
--- CORDIC loop in rolling method (using for loop)
-procedure rolling (xi, yi       : in unsigned(19 downto 0);
-				   zi           : in signed(19 downto 0);
-				   signal xr, yr: out unsigned(19 downto 0);
-				   signal zr    : out signed(19 downto 0)) is
-				   
-variable x1, x2, y1, y2: unsigned(19 downto 0);
-variable z1, z2: signed(19 downto 0);
+signal xi, xi2: unsigned(19 downto 0):=(19 => '1', others => '0');
+signal yi, yi2: unsigned(19 downto 0):=(others => '0');
+signal zi, zi2: signed(19 downto 0):=(others => '0'); -- 0 to 90 degrees
 
 --Lookup table of the rotation angles 
 type z_array is array(0 to 15) of signed(19 downto 0);
@@ -73,67 +51,11 @@ constant inc_angle: z_array := (
 	"00000000000000010100", -- atan(2^-14)
 	"00000000000000001010"  -- atan(2^-15)
 	);
-
-begin
-  x1 := xi;
-  y1 := yi;
-  z1 := zi;
-  for i in 0 to 15 loop
-	if (z1(19) = '1') then
-	  x2 := x1 + shift_right(y1, i);
-	  y2 := y1 - shift_right(x1, i);
-	  z2 := z1 + inc_angle(i);
-	else
-	  x2 := x1 - shift_right(y1, i);
-	  y2 := y1 + shift_right(x1, i);
-	  z2 := z1 - inc_angle(i);
-    end if;
-	x1 := x2;
-	y1 := y2;
-	z1 := z2;
-  end loop;
-  xr <= x1;
-  yr <= y1;
-  zr <= z1;
-end procedure; -- End of rolling procedure
-
--- Wrapping up the calculation:
--- 1. Multiply the shifting results with scaling factor
--- 2. Convert the product to 17 bit signed (1 bit for sign)
--- 3. Adjust the results according to the input angle quadrant
-procedure wrap_up (xi, yi       : in unsigned(19 downto 0);
-				   quadrant     : in unsigned(1 downto 0);
-				   signal co, so: out signed(17 downto 0)) is
-
-variable x_40_bit, y_40_bit: unsigned(39 downto 0);
-variable x_16_bit, y_16_bit: unsigned(15 downto 0);
+	
+signal x_40_bit, y_40_bit: unsigned(39 downto 0);
+signal x_16_bit, y_16_bit: unsigned(15 downto 0);
 
 constant scaling_factor: unsigned(19 downto 0):=("01001101101110100111");
-
-begin
-  x_40_bit := xi * scaling_factor;
-  y_40_bit := yi * scaling_factor;
-  
-  x_16_bit := x_40_bit(39 downto 24);
-  y_16_bit := y_40_bit(39 downto 24);
-  
-  case quadrant is
-    when "00" => -- First quadrant, no rotation
-	  co <= signed('0' & x_16_bit);
-	  so <= signed('0' & y_16_bit);
-	when "01" => -- Second quadrant, rotate 90 degrees counterclockwise
-	  co <= signed('1' & y_16_bit);
-	  so <= signed('0' & x_16_bit);
-	when "10" => -- Third quadrant, rotate 180 degrees counterclockwise
-	  co <= signed('1' & x_16_bit);
-	  so <= signed('1' & y_16_bit);
-	when others => -- Fourth quadrant, rotate 270 degrees counterclockwise
-	  co <= signed('0' & y_16_bit);
-	  so <= signed('1' & x_16_bit);
-  end case;
-end procedure; -- End of wrap-up procedure
-
--- Behavior architecture:
 
 begin
 
@@ -146,15 +68,51 @@ reg:process (rst, clk)
         sin <= "00000000000000000" ;
 	    angle_r <= "0000000000000000" ;
 	  else
-	    cos <= std_logic_vector(cos_r);
-		sin <= std_logic_vector(sin_r);
 	    angle_r <= unsigned(angle);
+		quad <= angle_r(15 downto 14);
+		zi <= signed('0' & ang(13 downto 0) & "00000");
+		
+		for i in 0 to 15 loop
+		  if (zi(19) = '1') then
+			xi2 <= xi + shift_right(yi, i);
+			yi2 <= yi - shift_right(xi, i);
+			zi2 <= zi + inc_angle(i);
+		  else
+			xi2 <= xi - shift_right(yi, i);
+			yi2 <= yi + shift_right(xi, i);
+			zi2 <= zi - inc_angle(i);
+		  end if;
+		  xi <= xi2;
+		  yi <= yi2;
+		  zi <= zi2;
+		end loop;
+		
+		x_40_bit <= xi * scaling_factor;
+		y_40_bit <= yi * scaling_factor;
+  
+		x_16_bit <= x_40_bit(39 downto 24);
+		y_16_bit <= y_40_bit(39 downto 24);
+		
+		case quad is
+		  when "00" => -- First quadrant, no rotation
+			cos_r <= signed('0' & x_16_bit);
+			sin_r <= signed('0' & y_16_bit);
+		  when "01" => -- Second quadrant, rotate 90 degrees counterclockwise
+			cos_r <= signed('1' & y_16_bit);
+			sin_r <= signed('0' & x_16_bit);
+		  when "10" => -- Third quadrant, rotate 180 degrees counterclockwise
+			cos_r <= signed('1' & x_16_bit);
+			sin_r <= signed('1' & y_16_bit);
+		  when others => -- Fourth quadrant, rotate 270 degrees counterclockwise
+			cos_r <= signed('0' & y_16_bit);
+			sin_r <= signed('1' & x_16_bit);
+		end case;
+		
+		cos <= std_logic_vector(cos_r);
+		sin <= std_logic_vector(sin_r);
+	    
 	  end if;
 	end if; 	   
 end process reg;
-
-adjust_angle(angle_r, quad, z_in);
-rolling (x_in, y_in, z_in, x_out, y_out, z_out);
-wrap_up (x_out, y_out, quad, cos_r, sin_r);
 
 end Behavioral;

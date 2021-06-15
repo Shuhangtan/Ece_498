@@ -27,9 +27,9 @@ signal cos_r, sin_r: signed(16 downto 0):=(others => '0');
 signal quad: unsigned(1 downto 0):=(others => '0');
 
 -- CORDIC calculation: x, y, and z(angle)
-signal x: unsigned(19 downto 0):=(19 => '1', others => '0');
-signal y: unsigned(19 downto 0):=(others => '0');
-signal z: unsigned(19 downto 0):=(others => '0'); -- 0 to 90 degrees
+signal x_in, x_out: unsigned(19 downto 0):=(19 => '1', others => '0');
+signal y_in, y_out: unsigned(19 downto 0):=(others => '0');
+signal z_in, z_out: signed(19 downto 0):=(others => '0'); -- 0 to 90 degrees
 
 -- Subprograms declaration:
 
@@ -153,6 +153,8 @@ reg:process (rst, clk)
 	end if; 	   
 end process reg;
 
-
+adjust_angle(angle_r, quad, z_in);
+rolling (x_in, y_in, z_in, x_out, y_out, z_out);
+wrap_up (x_out, y_out, quad, cos_r, sin_r);
 
 end Behavioral;

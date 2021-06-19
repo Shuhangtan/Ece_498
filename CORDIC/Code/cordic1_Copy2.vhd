@@ -1,8 +1,8 @@
 -- Created on June 6, 2021
 -- Reference: https://github.com/kevinpt/vhdl-extras/blob/master/rtl/extras/cordic.vhdl
 
--- June 15: xi and yi always overflow
--- To do: rewrite the code to make the circuit concurrant and fix the overflow issue
+-- June 13: all procedures are done
+-- To do: main architecture: how to call the 3 prodecudres 
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -27,8 +27,8 @@ signal cos_r, sin_r: signed(16 downto 0):=(others => '0');
 signal quad: unsigned(1 downto 0):=(others => '0');
 
 -- CORDIC calculation: x, y, and z(angle)
-signal xi, xi2: unsigned(19 downto 0):=(19 => '1', others => '0');
-signal yi, yi2: unsigned(19 downto 0):=(others => '0');
+signal xi, xi2: signed(19 downto 0):=(18 => '1', others => '0');
+signal yi, yi2: signed(19 downto 0):=(others => '0');
 signal zi, zi2: signed(19 downto 0):=(others => '0'); -- 0 to 90 degrees
 
 --Lookup table of the rotation angles 
@@ -55,7 +55,7 @@ constant inc_angle: z_array := (
 signal x_40_bit, y_40_bit: unsigned(39 downto 0);
 signal x_16_bit, y_16_bit: unsigned(15 downto 0);
 
-constant scaling_factor: unsigned(19 downto 0):=("01001101101110100111");
+constant scaling_factor: signed(19 downto 0):=("00100110110111010100");
 
 begin
 
@@ -70,7 +70,11 @@ reg:process (rst, clk)
 	  else
 	    angle_r <= unsigned(angle);
 		quad <= angle_r(15 downto 14);
-		zi <= signed('0' & ang(13 downto 0) & "00000");
+		zi <= signed('0' & angle_r(13 downto 0) & "00000");
+		
+		if (zi = "00000000000000000000") then
+		  quad <= quad - 1;
+		end if;
 		
 		for i in 0 to 15 loop
 		  if (zi(19) = '1') then
@@ -80,36 +84,33 @@ reg:process (rst, clk)
 		  else
 			xi2 <= xi - shift_right(yi, i);
 			yi2 <= yi + shift_right(xi, i);
-			zi2 <= zi - inc_angle(i);
+	        zi2 <= zi - inc_angle(i);
 		  end if;
 		  xi <= xi2;
 		  yi <= yi2;
 		  zi <= zi2;
 		end loop;
 		
-		x_40_bit <= xi * scaling_factor;
-		y_40_bit <= yi * scaling_factor;
+		x_40_bit <= unsigned(abs(xi) * scaling_factor);
+		y_40_bit <= unsigned(abs(yi) * scaling_factor);
   
-		x_16_bit <= x_40_bit(38 downto 23);
-		y_16_bit <= y_40_bit(38 downto 23);
+		x_16_bit <= x_40_bit(36 downto 21);
+		y_16_bit <= y_40_bit(36 downto 21);
 		
 		case quad is
 		  when "00" => -- First quadrant, no rotation
-			cos_r <= signed('0' & x_16_bit);
-			sin_r <= signed('0' & y_16_bit);
+			cos <= std_logic_vector('0' & x_16_bit);
+			sin <= std_logic_vector('0' & y_16_bit);
 		  when "01" => -- Second quadrant, rotate 90 degrees counterclockwise
-			cos_r <= signed('1' & y_16_bit);
-			sin_r <= signed('0' & x_16_bit);
+			cos <= std_logic_vector('1' & y_16_bit);
+			sin <= std_logic_vector('0' & x_16_bit);
 		  when "10" => -- Third quadrant, rotate 180 degrees counterclockwise
-			cos_r <= signed('1' & x_16_bit);
-			sin_r <= signed('1' & y_16_bit);
+			cos <= std_logic_vector('1' & x_16_bit);
+			sin <= std_logic_vector('1' & y_16_bit);
 		  when others => -- Fourth quadrant, rotate 270 degrees counterclockwise
-			cos_r <= signed('0' & y_16_bit);
-			sin_r <= signed('1' & x_16_bit);
+			cos <= std_logic_vector('0' & y_16_bit);
+			sin <= std_logic_vector('1' & x_16_bit);
 		end case;
-		
-		cos <= std_logic_vector(cos_r);
-		sin <= std_logic_vector(sin_r);
 	    
 	  end if;
 	end if; 	   

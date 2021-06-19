@@ -1,8 +1,8 @@
 -- Created on June 6, 2021
 -- Reference: https://github.com/kevinpt/vhdl-extras/blob/master/rtl/extras/cordic.vhdl
 
--- June 13: all procedures are done
--- To do: main architecture: how to call the 3 prodecudres 
+-- June 15: xi and yi always overflow
+-- To do: rewrite the code to make the circuit concurrant and fix the overflow issue
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -90,8 +90,8 @@ reg:process (rst, clk)
 		x_40_bit <= xi * scaling_factor;
 		y_40_bit <= yi * scaling_factor;
   
-		x_16_bit <= x_40_bit(39 downto 24);
-		y_16_bit <= y_40_bit(39 downto 24);
+		x_16_bit <= x_40_bit(38 downto 23);
+		y_16_bit <= y_40_bit(38 downto 23);
 		
 		case quad is
 		  when "00" => -- First quadrant, no rotation

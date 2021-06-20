@@ -8,7 +8,7 @@ end cordic_TB;
 
 architecture Behavioral of cordic_TB is
 -- Component declaration for the Unit Under Test (UUT)
-  component cordic1 is
+  component cordic is
     Port ( clk      : in STD_LOGIC;
            rst      : in STD_LOGIC;
            angle    : in STD_LOGIC_VECTOR(15 downto 0); -- 0 to 2*pi
@@ -24,12 +24,12 @@ architecture Behavioral of cordic_TB is
   signal cos, sin: STD_LOGIC_VECTOR (16 downto 0);
 
   -- Clock period definition
-  constant clk_period : time := 20 ns;
+  constant clk_period : time := 30 ns; -- Longest path is about 30 ns
 
 begin
   -- Instantiate the Unit Under Test (UUT)
   uut_01:
-  cordic1
+  cordic
     Port Map ( clk   => clk,
                rst   => rst,
                angle => angle,
@@ -51,21 +51,23 @@ begin
     -- Big-Bang state
     rst <= '1';
     angle <= "0000000000000000";
-    wait for clk_period*19.5;
+    wait for clk_period*4.5;
     
     -- Test cases
     rst <= '0';
 	angle <= "0100000000000000"; -- 90 degrees
     wait for clk_period;
     
-    angle <= "1100000000000000"; -- 270 degrees
+    angle <= "1011111111111111"; -- about 270 degrees
     wait for clk_period;
     
-    angle <= "0101110001110010"; -- 130 degrees
+    angle <= "0110111110100101"; -- 157 degrees
     wait for clk_period;
 	
-	angle <= "0001110001110010"; -- 40 degrees
+	angle <= "0011100011100100"; -- 80 degrees
     wait for clk_period;
+    
+    -- Other test cases: 270, 130, 40, 110 - all passed
     
     angle <= "0000000000000000"; -- 0 degrees
     wait;

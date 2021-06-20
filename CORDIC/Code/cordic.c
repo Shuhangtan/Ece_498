@@ -29,8 +29,8 @@ void cordic(unsigned short int angle)
                              0xA2F8AA, 0x517CA7, 0x28BE5D, 0x145F30, 0xA2F98, 0x517CC, 0x28BE6, 0x145F3, 0xA2FA};
   const int k = 0x4DBA;
   
-  //short int q = angle >> 14;
-  //printf("Quadrant of the input angle is %d.\n", q+1);
+  short int q = angle >> 14;
+  printf("Quadrant of the input angle is %d.\n", q+1);
   
   signed int xi = 1 << 30; signed int xi2 = xi;
   signed int yi = 0; signed int yi2 = 0;
@@ -68,27 +68,33 @@ void cordic(unsigned short int angle)
   printf("y_temp: %X.\n", y_temp);
   
   signed int cos, sin;
-  
-  if (angle > 0xC000) // Fourth quadrant
+   
+  switch (q)
   {
-    cos = y_temp;
-    sin = -x_temp;
+	case 0: {// First quadrant
+		cos = x_temp;
+		sin = y_temp;
+		break;
+		}
+	case 1:{// Second quadrant
+		cos = -y_temp;
+		sin = x_temp;
+		break;
+		}
+	case 2:{// Third quadrant
+		cos = -x_temp;
+		sin = -y_temp;
+		break;
+		}
+	case 3:{// Fourth quadrant
+		cos = y_temp;
+		sin = -x_temp;
+		break;
+		}
+	default:
+		printf("Something doesn't seem right...\n");
+		break;
   }
-  else if (angle > 0x8000) // Third quadrant
-  {
-    cos = -x_temp;
-    sin = -y_temp;
-  }
-  else if (angle > 0x4000) // Second quadrant
-  {
-    cos = -y_temp;
-    sin = x_temp;
-  }
-  else
-  {
-    cos = x_temp;
-    sin = y_temp;
-  } 
   
   printf("Cosine: %X.\n", cos);
   printf("Sine: %X.\n\n", sin);
